@@ -47,6 +47,13 @@ private:
 	// シェーダーリフレクションから定数バッファの作成
 	void CreateConstantBufferFromReflect(ID3D11ShaderReflection* shaderRef);
 
+	// シェーダーの初期化
+	void InitializeShaders();
+	// モデルの初期化
+	void InitializeModels();
+	// ImGuiの更新
+	void UpdateDebugGUI();
+
 
 private:
 	// 定数バッファのパラメーター
@@ -80,6 +87,20 @@ private:
 				pValues = nullptr;
 			}
 		}
+	};
+
+	// モデルタイプ
+	enum class ModelType
+	{
+		GeometricPrimitive,
+		CMO,
+		SDKMESH,
+	};
+	// インプットレイアウトタイプ
+	enum class InputLayoutType
+	{
+		GeometricPrimitive, // SDKMESH兼用
+		CMO,
 	};
 
 
@@ -129,4 +150,20 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11VertexShader>      m_skyVertexShader;
 	// ピクセルシェーダー
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>       m_skyPixelShader;
+
+
+	// 選択中のモデルタイプ
+	ModelType m_selectedModelType;
+	// 選択中のインプットレイアウトタイプ
+	InputLayoutType m_selectedILType;
+
+	// 金属質
+	float m_metallic;
+	// なめらかさ
+	float m_smoothness;
+	// アルベドテクスチャの使用
+	bool m_useAlbedo;
+	// 法線マップの使用
+	bool m_useNormalMap;
+
 };
