@@ -7,6 +7,9 @@
 #include "Game.h"
 #include "Effects.h"
 
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
 extern void ExitGame() noexcept;
 
 using namespace DirectX;
@@ -17,6 +20,17 @@ Game::Game() noexcept(false)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     m_deviceResources->RegisterDeviceNotify(this);
+}
+
+Game::~Game()
+{
+    m_scene->Finalize();
+    m_scene.reset();
+
+    // ImGuiの終了処理
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
 }
 
 // Initialize the Direct3D resources required to run.
@@ -30,6 +44,35 @@ void Game::Initialize(HWND window, int width, int height)
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
 
+    // ImGuiの初期化
+    {
+        // バージョンの確認
+        IMGUI_CHECKVERSION();
+        // コンテキストの作成
+        ImGui::CreateContext();
+        // IOの作成
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+        //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+
+        // カラースタイルの設定
+        ImGui::StyleColorsDark();
+
+        // 追加ウィンドウのスタイルを設定
+        ImGuiStyle& style = ImGui::GetStyle();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            // ウィンドウの半透明を解除
+            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+        }
+
+        // 初期化の実行
+        ImGui_ImplWin32_Init(window);
+        ImGui_ImplDX11_Init(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
+    }
+
     // シーンの作成
     m_scene = std::make_unique<Scene>(m_deviceResources.get());
     m_scene->Initialize();
@@ -39,6 +82,11 @@ void Game::Initialize(HWND window, int width, int height)
 // Executes the basic game loop.
 void Game::Tick()
 {
+    // ImGuiの新規フレームを開始
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
     m_timer.Tick([&]()
     {
         Update(m_timer);
@@ -73,6 +121,17 @@ void Game::Render()
 
     // シーンの描画
     m_scene->Render();
+
+    // ImGuiの描画
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    // 追加ウィンドウの描画
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+    }
 
     m_deviceResources->PIXEndEvent();
 
@@ -143,8 +202,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 // Properties
 void Game::GetDefaultSize(int& width, int& height) const noexcept
 {
-    width = 800;
-    height = 600;
+    width = 1280;
+    height = 720;
 }
 #pragma endregion
 

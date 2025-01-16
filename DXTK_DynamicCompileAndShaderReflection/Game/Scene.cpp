@@ -13,7 +13,7 @@
 #include "DDSTextureLoader.h"
 #include "WICTextureLoader.h"
 #include "ReadData.h"
-#include <array>
+#include "imgui.h"
 
 using namespace DirectX;
 
@@ -317,8 +317,13 @@ void Scene::Update(const float& deltaTime)
     // カメラに画面サイズを設定
     RECT windowRect = m_pDeviceResources->GetOutputSize();
     m_camera->SetScreenResolution((int)windowRect.right, (int)windowRect.bottom);
-    // カメラの更新
-    m_camera->Update(m_mouseButtonStateTracker->GetLastState(), deltaTime);
+
+    auto io = ImGui::GetIO();
+    if (!io.WantCaptureMouse)
+    {
+        // カメラの更新
+        m_camera->Update(m_mouseButtonStateTracker->GetLastState(), deltaTime);
+    }
 
     // マウスのスクロール量をリセット
     m_mouse->ResetScrollWheelValue();

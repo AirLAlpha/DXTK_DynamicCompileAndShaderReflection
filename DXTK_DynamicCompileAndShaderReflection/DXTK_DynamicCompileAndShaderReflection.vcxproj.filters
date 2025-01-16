@@ -11,6 +11,12 @@
     <Filter Include="Game">
       <UniqueIdentifier>{d5445109-1fb0-4625-bfaa-f41ec4f1c87b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{83d7530a-a463-4674-bbe9-de5051cede6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ImGui">
+      <UniqueIdentifier>{ea0a9885-b0ba-4db7-99c4-93ee9a743310}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -39,6 +45,30 @@
     <ClInclude Include="Game\Scene.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Library\ImGui\imconfig.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_impl_dx11.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_impl_win32.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imgui_internal.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_rectpack.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_textedit.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ImGui\imstb_truetype.h">
+      <Filter>Library\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -61,6 +91,27 @@
     </ClCompile>
     <ClCompile Include="Game\Scene.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_demo.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_draw.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_impl_win32.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_tables.cpp">
+      <Filter>Library\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ImGui\imgui_widgets.cpp">
+      <Filter>Library\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

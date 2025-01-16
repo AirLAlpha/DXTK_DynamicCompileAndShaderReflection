@@ -16,7 +16,7 @@ class Game final : public DX::IDeviceNotify
 public:
 
     Game() noexcept(false);
-    ~Game() = default;
+    ~Game();
 
     Game(Game&&) = default;
     Game& operator= (Game&&) = default;
